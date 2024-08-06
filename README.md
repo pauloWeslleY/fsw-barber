@@ -1,8 +1,8 @@
 
 # Aula 0
 - [x] Setup do banco
-- [] Seeding do banco (colocar dados no banco)
-- [] Introdução ao NextJs
+- [x] Seeding do banco (colocar dados no banco)
+- [x] Introdução ao NextJs
 - [] Introdução ao Tailwind e Shadcn
 - [] Git hooks
 
