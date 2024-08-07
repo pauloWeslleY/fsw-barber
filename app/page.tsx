@@ -55,7 +55,7 @@ const Home = async () => {
           ))}
         </div>
 
-        {/* Image */}
+        {/* IMAGE BANNER */}
         <div className="relative mt-6 h-[150px] w-full">
           <Image
             alt="Agende nos melhores com FSW Barber"
@@ -65,7 +65,7 @@ const Home = async () => {
           />
         </div>
 
-        {/* Agendamento */}
+        {/* AGENDAMENTO */}
         <BookingItem />
 
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
