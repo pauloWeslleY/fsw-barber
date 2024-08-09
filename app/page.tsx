@@ -5,7 +5,6 @@ import { Input } from "./components/ui/input"
 import Header from "./components/header"
 import { db } from "./lib/prisma"
 import BarbershopItem from "./components/barbershop-item"
-import Footer from "./components/footer"
 import useQuickSearch from "./hook/useQuickSearch"
 import BookingItem from "./components/booking-item"
 
@@ -86,8 +85,6 @@ const Home = async () => {
           ))}
         </div>
       </div>
-
-      <Footer />
     </div>
   )
 }

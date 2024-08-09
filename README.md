@@ -7,12 +7,9 @@
 - [x] Git hooks
 
 - Certificado
-  X
+  X7
 
-
-
- # Continuar a partir da aula 2 min00:32:01
-
+# Continuar a partir da aula 2 min01:08:0
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

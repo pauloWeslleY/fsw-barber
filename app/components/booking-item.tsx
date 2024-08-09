@@ -9,6 +9,7 @@ const BookingItem = () => {
       <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
         Agendamento
       </h2>
+
       <Card>
         <CardContent className="flex justify-between p-0">
           {/* Esquerda */}
