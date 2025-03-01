@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 
 const formSearchBarberShopSchema = z.object({
-  search: z.string().trim().min(1, "Digite algo para buscar"),
+  title: z.string().trim().min(1, "Digite algo para buscar"),
 })
 
 interface SearchBarberShopSchema
@@ -23,14 +23,14 @@ const InputSearch = () => {
     reValidateMode: "onSubmit",
     resolver: zodResolver(formSearchBarberShopSchema),
     defaultValues: {
-      search: "",
+      title: "",
     },
   })
 
   const router = useRouter()
 
   const handleSubmitSearchBarberShop = (data: SearchBarberShopSchema) => {
-    router.push(`/barbershops?search=${data.search}`)
+    router.push(`/barbershops?title=${data.title}`)
   }
 
   return (
@@ -42,7 +42,7 @@ const InputSearch = () => {
         className="flex gap-2"
       >
         <FormField
-          name="search"
+          name="title"
           control={formSearchBarberShop.control}
           render={({ field }) => (
             <FormItem className="flex-1">

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { signIn, signOut, useSession } from "next-auth/react"
 
 import { loadQuickSearchOptions } from "../data/list-quick-search"
+import SidebarLink from "./sidebar-link"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import {
@@ -96,32 +97,22 @@ const SideBar = () => {
 
       <div className="flex flex-col gap-4 border-b border-solid py-5">
         {loadQuickSearchOptions.map((option) => (
-          <Button
-            key={option.title}
-            className="justify-start gap-2"
-            variant="ghost"
-          >
-            <Image
-              src={option.imageUrl}
-              alt="Ícone Tesoura"
-              width={16}
-              height={16}
-            />
-            {option.title}
-          </Button>
+          <SidebarLink key={option.title} {...option} />
         ))}
       </div>
 
-      <div className="flex flex-col gap-2 py-5">
-        <Button
-          className="justify-start gap-2"
-          variant="ghost"
-          onClick={handleLogOutWithGoogle}
-        >
-          <LogOutIcon size={18} />
-          Sair da conta
-        </Button>
-      </div>
+      {data?.user && (
+        <div className="flex flex-col gap-2 py-5">
+          <Button
+            className="justify-start gap-2"
+            variant="ghost"
+            onClick={handleLogOutWithGoogle}
+          >
+            <LogOutIcon size={18} />
+            Sair da conta
+          </Button>
+        </div>
+      )}
     </SheetContent>
   )
 }

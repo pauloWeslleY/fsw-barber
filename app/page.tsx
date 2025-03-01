@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import BarbershopItem from "./components/barbershop-item"
 import BookingItem from "./components/booking-item"
@@ -47,14 +48,17 @@ const Home = async () => {
               key={option.title}
               variant="secondary"
               className="flex items-center gap-2"
+              asChild
             >
-              <Image
-                src={option.imageUrl}
-                alt="Ícone Tesoura"
-                width={16}
-                height={16}
-              />
-              {option.title}
+              <Link href={`/barbershops?service=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  alt={option.title}
+                  width={16}
+                  height={16}
+                />
+                {option.title}
+              </Link>
             </Button>
           ))}
         </div>

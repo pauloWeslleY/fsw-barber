@@ -1,4 +1,4 @@
-interface QuickSearchOptions {
+export interface QuickSearchOptions {
   imageUrl: string
   title: string
 }

@@ -1,6 +1,6 @@
 import { MenuIcon } from "lucide-react"
-import Image from "next/image"
 
+import LogotipoHeader from "./logo-header"
 import SideBar from "./sidebar"
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
@@ -10,12 +10,7 @@ const Header = () => {
   return (
     <Card>
       <CardContent className="flex flex-row items-center justify-between p-5">
-        <Image
-          alt="FSW - Barber logo"
-          src="/logotipo.png"
-          width={120}
-          height={18}
-        />
+        <LogotipoHeader />
 
         <Sheet>
           <SheetTrigger asChild>
