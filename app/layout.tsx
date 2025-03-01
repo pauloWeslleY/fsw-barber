@@ -5,6 +5,7 @@ import { Nunito } from "next/font/google"
 
 import Footer from "./components/footer"
 import { Toaster } from "./components/ui/sonner"
+import AuthProvider from "./prodivers/auth"
 
 const nunito = Nunito({ subsets: ["latin"] })
 
@@ -24,10 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={nunito.className}>
-        {children}
-        <Toaster />
-
-        <Footer />
+        <AuthProvider>
+          {children}
+          <Toaster />
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   )
