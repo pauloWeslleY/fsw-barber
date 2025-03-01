@@ -3,9 +3,9 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Nunito } from "next/font/google"
 
+import AuthProvider from "./_providers/auth"
 import Footer from "./components/footer"
 import { Toaster } from "./components/ui/sonner"
-import AuthProvider from "./prodivers/auth"
 
 const nunito = Nunito({ subsets: ["latin"] })
 
@@ -26,10 +26,12 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={nunito.className}>
         <AuthProvider>
-          {children}
-          <Toaster />
-          <Footer />
+          <div className="flex h-full flex-col">
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
         </AuthProvider>
+        <Toaster />
       </body>
     </html>
   )
