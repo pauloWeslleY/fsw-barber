@@ -1,9 +1,10 @@
-import Image from "next/image"
-import { Card, CardContent } from "./ui/card"
-import SideBar from "./sidebar"
-import { Sheet, SheetTrigger } from "./ui/sheet"
-import { Button } from "./ui/button"
 import { MenuIcon } from "lucide-react"
+import Image from "next/image"
+
+import SideBar from "./sidebar"
+import { Button } from "./ui/button"
+import { Card, CardContent } from "./ui/card"
+import { Sheet, SheetTrigger } from "./ui/sheet"
 
 const Header = () => {
   return (
@@ -22,6 +23,7 @@ const Header = () => {
               <MenuIcon />
             </Button>
           </SheetTrigger>
+
           <SideBar />
         </Sheet>
       </CardContent>

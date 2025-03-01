@@ -1,13 +1,14 @@
-import Link from "next/link"
-import Image from "next/image"
-import { notFound } from "next/navigation"
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
-import { Button } from "@/app/components/ui/button"
-import { db } from "@/app/lib/prisma"
-import ServiceItem from "@/app/components/service-item"
+import Image from "next/image"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+
 import PhoneItem from "@/app/components/phone-item"
+import ServiceItem from "@/app/components/service-item"
 import SideBar from "@/app/components/sidebar"
+import { Button } from "@/app/components/ui/button"
 import { Sheet, SheetTrigger } from "@/app/components/ui/sheet"
+import { db } from "@/app/lib/prisma"
 
 interface BarbershopPageProps {
   params: {
@@ -15,15 +16,17 @@ interface BarbershopPageProps {
   }
 }
 
-const BarbershopPage = async ({ params }: BarbershopPageProps) => {
-  const barbershop = await db.barbershop.findUnique({
-    where: {
-      id: params.id,
-    },
+async function getDetailBarbershop(id: string) {
+  return await db.barbershop.findUnique({
+    where: { id },
     include: {
       services: true,
     },
   })
+}
+
+const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+  const barbershop = await getDetailBarbershop(params.id)
 
   if (!barbershop) {
     return notFound()

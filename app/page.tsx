@@ -1,15 +1,15 @@
-import Image from "next/image"
 import { SearchIcon } from "lucide-react"
+import Image from "next/image"
+
+import BarbershopItem from "./components/barbershop-item"
+import BookingItem from "./components/booking-item"
+import Header from "./components/header"
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
-import Header from "./components/header"
+import { loadQuickSearchOptions } from "./data/list-quick-search"
 import { db } from "./lib/prisma"
-import BarbershopItem from "./components/barbershop-item"
-import useQuickSearch from "./hook/useQuickSearch"
-import BookingItem from "./components/booking-item"
 
-const Home = async () => {
-  const { quickSearchOptions } = useQuickSearch()
+async function getBarberShop() {
   const barbershops = await db.barbershop.findMany({})
   const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
@@ -17,10 +17,20 @@ const Home = async () => {
     },
   })
 
+  return {
+    barbershops,
+    popularBarbershops,
+  }
+}
+
+const Home = async () => {
+  const { barbershops, popularBarbershops } = await getBarberShop()
+
   return (
     <div>
       {/* HEADER */}
       <Header />
+
       <div className="p-5">
         {/* HEADER */}
         <h2 className="text-xl font-bold">Hello, John Doe</h2>
@@ -37,7 +47,7 @@ const Home = async () => {
 
         {/* BUSCA RÁPIDA */}
         <div className="mt-6 flex items-center gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
-          {quickSearchOptions.map((option) => (
+          {loadQuickSearchOptions.map((option) => (
             <Button
               key={option.title}
               variant="secondary"
