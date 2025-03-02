@@ -9,4 +9,7 @@
 - Certificado
   X7
 
-# Continuar a partir da aula 2 min01:08:0
+  FEAT:
+
+- 1.  Não exibir horários que já foram agendados
+- 2.  Não deixar o usuário reservar se não estiver logado

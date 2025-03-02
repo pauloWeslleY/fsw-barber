@@ -18,7 +18,7 @@ const BookingItem = () => {
             <Badge className="w-fit">Confirmado</Badge>
             <h3 className="font-semibold">Corte de cabelo</h3>
 
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
               <Avatar className="h-6 w-6">
                 <AvatarImage src="/avatar.png" alt="Avatar" />
               </Avatar>
