@@ -1,7 +1,6 @@
 "use client"
 
 import { Barbershop } from "@prisma/client"
-import { addDays } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import Image from "next/image"
 
@@ -76,7 +75,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                       locale={ptBR}
                       selected={selectedDay}
                       onSelect={handleDateSelect}
-                      fromDate={addDays(new Date(), 1)}
+                      fromDate={new Date()}
                       styles={{
                         head_cell: {
                           width: "100%",

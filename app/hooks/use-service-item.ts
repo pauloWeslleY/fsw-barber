@@ -73,7 +73,6 @@ const useServiceItem = (serviceId: string) => {
 
       await createBooking({
         serviceId,
-        userId: (data?.user as any).id,
         date: newDate,
       })
       toast.success("Create booking successfully")
