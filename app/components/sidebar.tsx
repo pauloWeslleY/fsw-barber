@@ -3,9 +3,9 @@
 import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { signIn, signOut, useSession } from "next-auth/react"
 
 import { loadQuickSearchOptions } from "../data/list-quick-search"
+import useSidebar from "../hooks/use-sidebar"
 import SidebarLink from "./sidebar-link"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
@@ -20,10 +20,7 @@ import {
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet"
 
 const SideBar = () => {
-  const { data } = useSession()
-
-  const handleLoginWithGoogle = () => signIn("google")
-  const handleLogOutWithGoogle = () => signOut()
+  const { data, handleLoginWithGoogle, handleLogOutWithGoogle } = useSidebar()
 
   return (
     <SheetContent className="overflow-y-auto">
@@ -70,7 +67,10 @@ const SideBar = () => {
       {data?.user && (
         <div className="flex items-center gap-3 border-b border-solid py-5">
           <Avatar className="h-12 w-12 border-2 border-solid border-primary">
-            <AvatarImage src={data.user.image ?? "/account.png"} alt="Avatar" />
+            <AvatarImage
+              src={data.user?.image ?? "/account.png"}
+              alt="Avatar"
+            />
           </Avatar>
 
           <div className="space-y-1">

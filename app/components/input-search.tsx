@@ -1,37 +1,15 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
 import { SearchIcon } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
 
+import useInputSearch from "../hooks/use-input-search"
 import { Button } from "./ui/button"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 
-const formSearchBarberShopSchema = z.object({
-  title: z.string().trim().min(1, "Digite algo para buscar"),
-})
-
-interface SearchBarberShopSchema
-  extends z.infer<typeof formSearchBarberShopSchema> {}
-
 const InputSearch = () => {
-  const formSearchBarberShop = useForm<SearchBarberShopSchema>({
-    mode: "onSubmit",
-    reValidateMode: "onSubmit",
-    resolver: zodResolver(formSearchBarberShopSchema),
-    defaultValues: {
-      title: "",
-    },
-  })
-
-  const router = useRouter()
-
-  const handleSubmitSearchBarberShop = (data: SearchBarberShopSchema) => {
-    router.push(`/barbershops?title=${data.title}`)
-  }
+  const { formSearchBarberShop, handleSubmitSearchBarberShop } =
+    useInputSearch()
 
   return (
     <Form {...formSearchBarberShop}>

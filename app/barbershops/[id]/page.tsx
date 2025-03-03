@@ -17,12 +17,26 @@ interface BarbershopPageProps {
 }
 
 async function getDetailBarbershop(id: string) {
-  return await db.barbershop.findUnique({
+  const barbershop = await db.barbershop.findUnique({
     where: { id },
     include: {
       services: true,
     },
   })
+
+  if (!barbershop) return null
+
+  const barberShop = {
+    ...barbershop,
+    services: barbershop.services.map((barberService) => {
+      return {
+        ...barberService,
+        price: Number(barberService.price),
+      }
+    }),
+  }
+
+  return barberShop
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
