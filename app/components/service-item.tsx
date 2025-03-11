@@ -32,6 +32,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     selectedDay,
     selectedTime,
     getTimeList,
+    hasTimeListCurrent,
     handleCreateBooking,
     formatDateService,
     handleTimeSelect,
@@ -107,18 +108,24 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
                     {selectedDay && (
                       <div className="flex gap-3 overflow-x-scroll border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
-                        {getTimeList.map((time) => (
-                          <Button
-                            key={time}
-                            variant={
-                              selectedTime === time ? "default" : "outline"
-                            }
-                            className="rounded-full"
-                            onClick={handleTimeSelect(time)}
-                          >
-                            {time}
-                          </Button>
-                        ))}
+                        {hasTimeListCurrent ? (
+                          getTimeList.map((time) => (
+                            <Button
+                              key={time}
+                              variant={
+                                selectedTime === time ? "default" : "outline"
+                              }
+                              className="rounded-full"
+                              onClick={handleTimeSelect(time)}
+                            >
+                              {time}
+                            </Button>
+                          ))
+                        ) : (
+                          <p className="text-sm">
+                            Não há horários disponíveis para este dia.
+                          </p>
+                        )}
                       </div>
                     )}
 

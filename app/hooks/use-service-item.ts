@@ -1,8 +1,8 @@
 import { Booking } from "@prisma/client"
-import { format, set } from "date-fns"
+import { format, isPast, isToday, set } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { useSession } from "next-auth/react"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
 
 import { createBooking } from "../_actions/create-booking"
@@ -37,17 +37,22 @@ const useServiceItem = (serviceId: string) => {
     }
   }
 
-  const getTimeList = () => {
-    // TODO: Não exibir horários no passado!
+  const getTimeList = useMemo<string[]>(() => {
+    if (!selectedDay) return []
 
     return TIME_LIST.filter((time) => {
-      const hour = time.split(":")[0]
-      const minute = time.split(":")[1]
+      const hour = Number(time.split(":")[0])
+      const minutes = Number(time.split(":")[1])
+      const hasTimePast = isPast(set(new Date(), { hours: hour, minutes }))
+
+      if (hasTimePast && isToday(selectedDay)) {
+        return false
+      }
 
       const hasHourAvailable = dayBookings.some(
         (booking) =>
-          booking.date.getHours() === Number(hour) &&
-          booking.date.getMinutes() === Number(minute),
+          booking.date.getHours() === hour &&
+          booking.date.getMinutes() === minutes,
       )
 
       if (hasHourAvailable) {
@@ -56,7 +61,9 @@ const useServiceItem = (serviceId: string) => {
 
       return true
     })
-  }
+  }, [dayBookings, selectedDay])
+
+  const hasTimeListCurrent = getTimeList.length > 0
 
   const formatDateService = () => {
     if (!selectedDay) return "Data inválida"
@@ -89,7 +96,8 @@ const useServiceItem = (serviceId: string) => {
     selectedDay,
     selectedTime,
     dayBookings,
-    getTimeList: getTimeList(),
+    getTimeList,
+    hasTimeListCurrent,
     loadBooking,
     handleCreateBooking,
     formatDateService,
