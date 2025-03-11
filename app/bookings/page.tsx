@@ -24,7 +24,7 @@ const BookingsPage = async () => {
       <div className="p-5">
         <h1 className="pb-6 text-xl font-bold">Agendamentos</h1>
 
-        <div className="space-y-5">
+        <div className="space-y-3">
           <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
             Confirmado
           </h2>
@@ -34,7 +34,7 @@ const BookingsPage = async () => {
           ))}
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-3">
           <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
             Finalizado
           </h2>

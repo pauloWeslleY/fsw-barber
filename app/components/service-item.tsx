@@ -7,6 +7,7 @@ import Image from "next/image"
 import { ServiceBarberShop } from "../@types/services-barbershops.type"
 import useServiceItem from "../hooks/use-service-item"
 import { formatPrice } from "../utilities/format-price"
+import BookingInfo from "./booking-info"
 import { Button } from "./ui/button"
 import { Calendar } from "./ui/calendar"
 import { Card, CardContent } from "./ui/card"
@@ -64,92 +65,77 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                     Reservar
                   </Button>
                 </SheetTrigger>
-                <SheetContent className="px-0">
+
+                <SheetContent className="flex flex-col px-0">
                   <SheetHeader className="border-b border-solid pb-4">
                     <SheetTitle>Fazer Reserva</SheetTitle>
                   </SheetHeader>
 
-                  <div className="border-b border-solid py-5">
-                    <Calendar
-                      mode="single"
-                      locale={ptBR}
-                      selected={selectedDay}
-                      onSelect={handleDateSelect}
-                      fromDate={new Date()}
-                      styles={{
-                        head_cell: {
-                          width: "100%",
-                          textTransform: "uppercase",
-                        },
-                        cell: {
-                          width: "100%",
-                        },
-                        button: {
-                          width: "100%",
-                        },
-                        nav_button_previous: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        nav_button_next: {
-                          width: "32px",
-                          height: "32px",
-                        },
-                        caption: {
-                          textTransform: "uppercase",
-                        },
-                      }}
-                    />
+                  <div>
+                    <div className="border-b border-solid py-5">
+                      <Calendar
+                        mode="single"
+                        locale={ptBR}
+                        selected={selectedDay}
+                        onSelect={handleDateSelect}
+                        fromDate={new Date()}
+                        styles={{
+                          head_cell: {
+                            width: "100%",
+                            textTransform: "uppercase",
+                          },
+                          cell: {
+                            width: "100%",
+                          },
+                          button: {
+                            width: "100%",
+                          },
+                          nav_button_previous: {
+                            width: "32px",
+                            height: "32px",
+                          },
+                          nav_button_next: {
+                            width: "32px",
+                            height: "32px",
+                          },
+                          caption: {
+                            textTransform: "uppercase",
+                          },
+                        }}
+                      />
+                    </div>
+
+                    {selectedDay && (
+                      <div className="flex gap-3 overflow-x-scroll border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
+                        {getTimeList.map((time) => (
+                          <Button
+                            key={time}
+                            variant={
+                              selectedTime === time ? "default" : "outline"
+                            }
+                            className="rounded-full"
+                            onClick={handleTimeSelect(time)}
+                          >
+                            {time}
+                          </Button>
+                        ))}
+                      </div>
+                    )}
+
+                    {selectedTime && (
+                      <div className="p-5">
+                        <BookingInfo
+                          name={service.name}
+                          price={service.price}
+                          date={formatDateService()}
+                          hours={selectedTime}
+                          barberShopName={barbershop.name}
+                        />
+                      </div>
+                    )}
                   </div>
 
-                  {selectedDay && (
-                    <div className="flex gap-3 overflow-x-scroll border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
-                      {getTimeList.map((time) => (
-                        <Button
-                          key={time}
-                          variant={
-                            selectedTime === time ? "default" : "outline"
-                          }
-                          className="rounded-full"
-                          onClick={handleTimeSelect(time)}
-                        >
-                          {time}
-                        </Button>
-                      ))}
-                    </div>
-                  )}
-
-                  {selectedTime && (
-                    <div className="p-5">
-                      <Card>
-                        <CardContent className="space-y-3 p-3">
-                          <div className="flex items-center justify-between">
-                            <h2 className="font-bold">{service.name}</h2>
-
-                            <p className="text-sm font-bold">
-                              {formatPrice(service.price)}
-                            </p>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <h2 className="text-sm text-gray-400">Data</h2>
-
-                            <p className="text-sm">{formatDateService()}</p>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <h2 className="text-sm text-gray-400">Horário</h2>
-                            <p className="text-sm">{selectedTime}</p>
-                          </div>
-
-                          <div className="flex items-center justify-between">
-                            <h2 className="text-sm text-gray-400">Barbearia</h2>
-                            <p className="text-sm">{barbershop.name}</p>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  )}
-
-                  <SheetFooter className="mt-5 px-5">
+                  <SheetFooter className="flex-1 justify-self-end px-5">
                     <SheetClose asChild>
                       <Button
                         onClick={() => handleCreateBooking(service.id)}

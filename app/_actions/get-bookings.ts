@@ -29,7 +29,7 @@ export const getListBooking = async () => {
     return []
   }
 
-  return await db.booking.findMany({
+  const bookings = await db.booking.findMany({
     where: {
       userId: (session.user as any).id,
     },
@@ -44,4 +44,12 @@ export const getListBooking = async () => {
       date: "asc",
     },
   })
+
+  return bookings.map((booking) => ({
+    ...booking,
+    service: {
+      ...booking.service,
+      price: Number(booking.service.price),
+    },
+  }))
 }
