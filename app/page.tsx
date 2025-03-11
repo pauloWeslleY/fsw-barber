@@ -1,5 +1,9 @@
+import { Decimal } from "@prisma/client/runtime/library"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import Image from "next/image"
 import Link from "next/link"
+import { getServerSession } from "next-auth"
 
 import { getListBooking } from "./_actions/get-bookings"
 import BarbershopItem from "./components/barbershop-item"
@@ -8,9 +12,12 @@ import Header from "./components/header"
 import InputSearch from "./components/input-search"
 import { Button } from "./components/ui/button"
 import { loadQuickSearchOptions } from "./data/list-quick-search"
+import { authOptions } from "./lib/auth"
 import { db } from "./lib/prisma"
 
-async function getBarberShop() {
+const getBarberShop = async () => {
+  const session = await getServerSession(authOptions)
+
   const barbershops = await db.barbershop.findMany({})
   const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
@@ -21,11 +28,12 @@ async function getBarberShop() {
   return {
     barbershops,
     popularBarbershops,
+    user: session?.user,
   }
 }
 
 const Home = async () => {
-  const { barbershops, popularBarbershops } = await getBarberShop()
+  const { barbershops, popularBarbershops, user } = await getBarberShop()
   const bookings = await getListBooking()
 
   const confirmedBookings = bookings.filter(
@@ -39,8 +47,18 @@ const Home = async () => {
 
       <div className="p-5">
         {/* HEADER */}
-        <h2 className="text-xl font-bold">Hello, John Doe</h2>
-        <p className="">Segunda-feria, 05 de agosto</p>
+        <h2 className="text-xl font-bold">
+          {user ? `Olá, ${user.name}` : "Seja bem vindo"}
+        </h2>
+        <p>
+          <span className="capitalize">
+            {format(new Date(), "EEEE, dd", { locale: ptBR })}{" "}
+          </span>
+          de{" "}
+          <span className="capitalize">
+            {format(new Date(), "MMMM", { locale: ptBR })}.
+          </span>
+        </p>
 
         {/* BUSCA */}
         <div className="mt-6">
@@ -87,7 +105,16 @@ const Home = async () => {
 
           <div className="space-y-6">
             {confirmedBookings.slice(0, 1).map((booking) => (
-              <BookingItem key={booking.id} booking={booking} />
+              <BookingItem
+                key={booking.id}
+                booking={{
+                  ...booking,
+                  service: {
+                    ...booking.service,
+                    price: new Decimal(booking.service.price),
+                  },
+                }}
+              />
             ))}
           </div>
         </div>
