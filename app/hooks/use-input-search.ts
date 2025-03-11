@@ -15,9 +15,7 @@ const useInputSearch = () => {
     mode: "onSubmit",
     reValidateMode: "onSubmit",
     resolver: zodResolver(formSearchBarberShopSchema),
-    defaultValues: {
-      title: "",
-    },
+    defaultValues: { title: "" },
   })
 
   const router = useRouter()

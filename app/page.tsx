@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import { getListBooking } from "./_actions/get-bookings"
 import BarbershopItem from "./components/barbershop-item"
 import BookingItem from "./components/booking-item"
 import Header from "./components/header"
@@ -25,6 +26,11 @@ async function getBarberShop() {
 
 const Home = async () => {
   const { barbershops, popularBarbershops } = await getBarberShop()
+  const bookings = await getListBooking()
+
+  const confirmedBookings = bookings.filter(
+    (booking) => booking.date >= new Date(),
+  )
 
   return (
     <div>
@@ -74,7 +80,17 @@ const Home = async () => {
         </div>
 
         {/* AGENDAMENTO */}
-        <BookingItem />
+        <div>
+          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+            Agendamento
+          </h2>
+
+          <div className="space-y-6">
+            {confirmedBookings.slice(0, 1).map((booking) => (
+              <BookingItem key={booking.id} booking={booking} />
+            ))}
+          </div>
+        </div>
 
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Recomendados

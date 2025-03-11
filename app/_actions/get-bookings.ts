@@ -1,8 +1,10 @@
 "use server"
 
 import { endOfDay, startOfDay } from "date-fns"
+import { getServerSession } from "next-auth"
 
-import { db } from "../lib/prisma"
+import { authOptions } from "@/app/lib/auth"
+import { db } from "@/app/lib/prisma"
 
 interface GetBookingsProps {
   serviceId: string
@@ -16,6 +18,30 @@ export const getBookings = async ({ date }: GetBookingsProps) => {
         lte: endOfDay(date),
         gte: startOfDay(date),
       },
+    },
+  })
+}
+
+export const getListBooking = async () => {
+  const session = await getServerSession(authOptions)
+
+  if (!session?.user) {
+    return []
+  }
+
+  return await db.booking.findMany({
+    where: {
+      userId: (session.user as any).id,
+    },
+    include: {
+      service: {
+        include: {
+          barbershop: true,
+        },
+      },
+    },
+    orderBy: {
+      date: "asc",
     },
   })
 }

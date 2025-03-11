@@ -38,6 +38,8 @@ const useServiceItem = (serviceId: string) => {
   }
 
   const getTimeList = () => {
+    // TODO: Não exibir horários no passado!
+
     return TIME_LIST.filter((time) => {
       const hour = time.split(":")[0]
       const minute = time.split(":")[1]
@@ -63,6 +65,7 @@ const useServiceItem = (serviceId: string) => {
 
   const handleCreateBooking = async (serviceId: string) => {
     if (!selectedDay || !selectedTime) return
+
     try {
       const hour = selectedTime.split(":")[0]
       const minute = selectedTime.split(":")[1]
@@ -71,10 +74,7 @@ const useServiceItem = (serviceId: string) => {
         hours: Number(hour),
       })
 
-      await createBooking({
-        serviceId,
-        date: newDate,
-      })
+      await createBooking({ serviceId, date: newDate })
       toast.success("Create booking successfully")
       setSelectedDay(undefined)
       setSelectedTime(undefined)

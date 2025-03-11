@@ -8,35 +8,13 @@ import ServiceItem from "@/app/components/service-item"
 import SideBar from "@/app/components/sidebar"
 import { Button } from "@/app/components/ui/button"
 import { Sheet, SheetTrigger } from "@/app/components/ui/sheet"
-import { db } from "@/app/lib/prisma"
+
+import { getDetailBarbershop } from "./barbershop-detail"
 
 interface BarbershopPageProps {
   params: {
     id: string
   }
-}
-
-async function getDetailBarbershop(id: string) {
-  const barbershop = await db.barbershop.findUnique({
-    where: { id },
-    include: {
-      services: true,
-    },
-  })
-
-  if (!barbershop) return null
-
-  const barberShop = {
-    ...barbershop,
-    services: barbershop.services.map((barberService) => {
-      return {
-        ...barberService,
-        price: Number(barberService.price),
-      }
-    }),
-  }
-
-  return barberShop
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
