@@ -1,9 +1,13 @@
+"use client"
+
 import { Prisma } from "@prisma/client"
 import { format, isFuture } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import Image from "next/image"
+import { useState } from "react"
 
 import BookingInfo from "./booking-info"
+import DeleteBooking from "./delete-booking"
 import PhoneItem from "./phone-item"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
@@ -11,6 +15,7 @@ import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -34,9 +39,12 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     service: { barbershop },
   } = booking
   const isConfirmed = isFuture(booking.date)
+  const [sheetIsOpen, setSheetIsOpen] = useState(false)
+
+  const handleSheetIsOpenChange = (isOpen: boolean) => setSheetIsOpen(isOpen)
 
   return (
-    <Sheet>
+    <Sheet open={sheetIsOpen} onOpenChange={handleSheetIsOpenChange}>
       <SheetTrigger asChild>
         <Card className="cursor-pointer">
           <CardContent className="flex justify-between p-0">
@@ -134,12 +142,18 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
         <SheetFooter className="w-full flex-1 justify-self-end p-5">
           <div className="flex w-full items-center gap-3">
-            <Button variant="secondary" className="w-full rounded-xl">
-              Voltar
-            </Button>
-            <Button className="w-full rounded-xl bg-red-500 transition ease-in hover:bg-red-600">
-              Cancelar Reserva
-            </Button>
+            <SheetClose asChild>
+              <Button variant="secondary" className="w-full rounded-xl">
+                Voltar
+              </Button>
+            </SheetClose>
+
+            {isConfirmed && (
+              <DeleteBooking
+                bookingId={booking.id}
+                onCloseSheetBookingItem={setSheetIsOpen}
+              />
+            )}
           </div>
         </SheetFooter>
       </SheetContent>

@@ -25,6 +25,7 @@ const BookingInfo = ({
 
           <p className="text-sm font-bold">{formatPrice(price)}</p>
         </div>
+
         <div className="flex items-center justify-between">
           <h2 className="text-sm text-gray-400">Data</h2>
 
