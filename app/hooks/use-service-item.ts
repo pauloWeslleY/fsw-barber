@@ -9,13 +9,17 @@ import { createBooking } from "../_actions/create-booking"
 import { getBookings } from "../_actions/get-bookings"
 import { TIME_LIST } from "../data/time-list"
 
-const useServiceItem = (serviceId: string) => {
-  const { data } = useSession()
+interface UseServiceItemProps {
+  serviceId: string
+}
+
+const useServiceItem = ({ serviceId }: UseServiceItemProps) => {
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
   )
   const [dayBookings, setDayBookings] = useState<Booking[]>([])
+  const { data } = useSession()
 
   const loadBooking = useCallback(async () => {
     if (!selectedDay) return

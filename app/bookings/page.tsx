@@ -1,5 +1,3 @@
-import { Decimal } from "@prisma/client/runtime/library"
-
 import { getListBooking } from "@/app/_actions/get-bookings"
 import BookingItem from "@/app/components/booking-item"
 import Header from "@/app/components/header"
@@ -30,16 +28,7 @@ const BookingsPage = async () => {
               </h2>
 
               {confirmedBookings.map((booking) => (
-                <BookingItem
-                  key={booking.id}
-                  booking={{
-                    ...booking,
-                    service: {
-                      ...booking.service,
-                      price: new Decimal(booking.service.price),
-                    },
-                  }}
-                />
+                <BookingItem key={booking.id} booking={booking} />
               ))}
             </>
           )}
@@ -53,16 +42,7 @@ const BookingsPage = async () => {
               </h2>
 
               {concludedBookings.map((booking) => (
-                <BookingItem
-                  key={booking.id}
-                  booking={{
-                    ...booking,
-                    service: {
-                      ...booking.service,
-                      price: new Decimal(booking.service.price),
-                    },
-                  }}
-                />
+                <BookingItem key={booking.id} booking={booking} />
               ))}
             </>
           )}

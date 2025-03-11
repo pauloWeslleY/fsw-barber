@@ -37,7 +37,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     formatDateService,
     handleTimeSelect,
     handleDateSelect,
-  } = useServiceItem(service.id)
+  } = useServiceItem({ serviceId: service.id })
 
   return (
     <Card>
