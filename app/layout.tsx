@@ -17,11 +17,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface LayoutProps {
   children: React.ReactNode
-}>) {
+  types: any // Substitua pelo tipo correto se necessário
+}
+
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en" className="dark">
       <body className={nunito.className}>
