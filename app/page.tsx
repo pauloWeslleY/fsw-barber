@@ -98,26 +98,28 @@ const Home = async () => {
         </div>
 
         {/* AGENDAMENTO */}
-        <div>
-          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-            Agendamento
-          </h2>
+        {confirmedBookings.length > 0 && (
+          <>
+            <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+              Agendamento
+            </h2>
 
-          <div className="space-y-6">
-            {confirmedBookings.slice(0, 1).map((booking) => (
-              <BookingItem
-                key={booking.id}
-                booking={{
-                  ...booking,
-                  service: {
-                    ...booking.service,
-                    price: new Decimal(booking.service.price),
-                  },
-                }}
-              />
-            ))}
-          </div>
-        </div>
+            <div className="space-y-6">
+              {confirmedBookings.slice(0, 1).map((booking) => (
+                <BookingItem
+                  key={booking.id}
+                  booking={{
+                    ...booking,
+                    service: {
+                      ...booking.service,
+                      price: new Decimal(booking.service.price),
+                    },
+                  }}
+                />
+              ))}
+            </div>
+          </>
+        )}
 
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Recomendados
