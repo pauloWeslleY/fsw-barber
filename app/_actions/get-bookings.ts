@@ -44,12 +44,4 @@ export const getListBooking = async () => {
       date: "asc",
     },
   })
-
-  // return bookings.map((booking) => ({
-  //   ...booking,
-  //   service: {
-  //     ...booking.service,
-  //     price: Number(booking.service.price),
-  //   },
-  // }))
 }

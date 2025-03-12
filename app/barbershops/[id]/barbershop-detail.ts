@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/prisma"
 
-export async function getDetailBarbershop(id: string) {
+export const getDetailBarbershop = async (id: string) => {
   const barbershop = await db.barbershop.findUnique({
     where: { id },
     include: {

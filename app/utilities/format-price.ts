@@ -3,7 +3,6 @@ const intlNumberFormat = new Intl.NumberFormat("pt-BR", {
   currency: "BRL",
 })
 
-export function formatPrice(price: any) {
-  const convertPriceNumber = Number(price)
-  return intlNumberFormat.format(convertPriceNumber)
+export function formatPrice(price: number) {
+  return intlNumberFormat.format(price)
 }

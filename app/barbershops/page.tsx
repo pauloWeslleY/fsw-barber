@@ -1,43 +1,8 @@
+import { getSearchBarberShop } from "../_actions/search-barbershop"
+import { BarberShopPageProps } from "../@types/barbershop-search.type"
 import BarbershopItem from "../components/barbershop-item"
 import Header from "../components/header"
 import InputSearch from "../components/input-search"
-import { db } from "../lib/prisma"
-
-interface BarberShopPageProps {
-  searchParams: {
-    title?: string
-    service?: string
-  }
-}
-
-async function getSearchBarberShop({ searchParams }: BarberShopPageProps) {
-  return await db.barbershop.findMany({
-    where: {
-      OR: [
-        searchParams?.title
-          ? {
-              name: {
-                contains: searchParams?.title,
-                mode: "insensitive",
-              },
-            }
-          : {},
-        searchParams?.service
-          ? {
-              services: {
-                some: {
-                  name: {
-                    contains: searchParams?.service,
-                    mode: "insensitive",
-                  },
-                },
-              },
-            }
-          : {},
-      ],
-    },
-  })
-}
 
 const BarberShopPage = async ({ searchParams }: BarberShopPageProps) => {
   const barbershops = await getSearchBarberShop({ searchParams })
