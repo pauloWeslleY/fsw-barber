@@ -1,4 +1,3 @@
-import { Decimal } from "@prisma/client/runtime/library"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import Image from "next/image"
@@ -108,13 +107,7 @@ const Home = async () => {
               {confirmedBookings.slice(0, 1).map((booking) => (
                 <BookingItem
                   key={booking.id}
-                  booking={{
-                    ...booking,
-                    service: {
-                      ...booking.service,
-                      price: new Decimal(booking.service.price),
-                    },
-                  }}
+                  booking={JSON.parse(JSON.stringify(booking))}
                 />
               ))}
             </div>
