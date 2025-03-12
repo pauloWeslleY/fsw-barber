@@ -1,12 +1,14 @@
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
+
 import { formatPrice } from "@/app/utilities/format-price"
 
 import { Card, CardContent } from "./ui/card"
 
 interface BookingInfoProps {
   name: string
-  price: any
-  date: string
-  hours: string
+  price: number
+  date: Date
   barberShopName: string
 }
 
@@ -14,7 +16,6 @@ const BookingInfo = ({
   name,
   price,
   date,
-  hours,
   barberShopName,
 }: BookingInfoProps) => {
   return (
@@ -29,11 +30,13 @@ const BookingInfo = ({
         <div className="flex items-center justify-between">
           <h2 className="text-sm text-gray-400">Data</h2>
 
-          <p className="text-sm">{date}</p>
+          <p className="text-sm">
+            {format(date, "d 'de' MMMM", { locale: ptBR })}
+          </p>
         </div>
         <div className="flex items-center justify-between">
           <h2 className="text-sm text-gray-400">Horário</h2>
-          <p className="text-sm">{hours}</p>
+          <p className="text-sm">{format(date, "HH:mm", { locale: ptBR })}</p>
         </div>
 
         <div className="flex items-center justify-between">

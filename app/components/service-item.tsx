@@ -31,10 +31,10 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     data,
     selectedDay,
     selectedTime,
+    selectedDate,
     getTimeList,
     hasTimeListCurrent,
     handleCreateBooking,
-    formatDateService,
     handleTimeSelect,
     handleDateSelect,
   } = useServiceItem({ serviceId: service.id })
@@ -129,13 +129,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                       </div>
                     )}
 
-                    {selectedTime && (
+                    {selectedDate && (
                       <div className="p-5">
                         <BookingInfo
                           name={service.name}
                           price={service.price}
-                          date={formatDateService()}
-                          hours={selectedTime}
+                          date={selectedDate}
                           barberShopName={barbershop.name}
                         />
                       </div>

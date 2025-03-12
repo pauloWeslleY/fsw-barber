@@ -1,10 +1,11 @@
 "use client"
 
-import { Prisma } from "@prisma/client"
 import { format, isFuture } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import Image from "next/image"
 import { useState } from "react"
+
+import { BookingItemProps } from "@/app/@types/booking-item.type"
 
 import BookingInfo from "./booking-info"
 import DeleteBooking from "./delete-booking"
@@ -23,17 +24,6 @@ import {
   SheetTrigger,
 } from "./ui/sheet"
 
-interface BookingItemProps {
-  booking: Prisma.BookingGetPayload<{
-    include: {
-      service: {
-        include: { barbershop: true }
-      }
-    }
-  }>
-}
-
-// TODO: receber agendamento como prop
 const BookingItem = ({ booking }: BookingItemProps) => {
   const {
     service: { barbershop },
@@ -126,9 +116,8 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           <div className="py-3">
             <BookingInfo
               name={booking.service.name}
-              price={booking.service.price}
-              date={format(booking.date, "d 'de' MMMM", { locale: ptBR })}
-              hours={format(booking.date, "HH:mm", { locale: ptBR })}
+              price={Number(booking.service.price)}
+              date={booking.date}
               barberShopName={barbershop.name}
             />
           </div>

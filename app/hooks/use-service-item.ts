@@ -1,6 +1,6 @@
 import { Booking } from "@prisma/client"
-import { format, isPast, isToday, set } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { isPast, isToday, set } from "date-fns"
+import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
@@ -14,12 +14,11 @@ interface UseServiceItemProps {
 }
 
 const useServiceItem = ({ serviceId }: UseServiceItemProps) => {
-  const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
-  const [selectedTime, setSelectedTime] = useState<string | undefined>(
-    undefined,
-  )
+  const [selectedDay, setSelectedDay] = useState<Date>()
+  const [selectedTime, setSelectedTime] = useState<string>()
   const [dayBookings, setDayBookings] = useState<Booking[]>([])
   const { data } = useSession()
+  const router = useRouter()
 
   const loadBooking = useCallback(async () => {
     if (!selectedDay) return
@@ -31,15 +30,15 @@ const useServiceItem = ({ serviceId }: UseServiceItemProps) => {
     loadBooking()
   }, [loadBooking])
 
-  const handleDateSelect = (date?: Date) => {
-    setSelectedDay(date)
-  }
-
-  const handleTimeSelect = (time: string) => {
-    return () => {
-      setSelectedTime(time)
-    }
-  }
+  const selectedDate = useMemo(() => {
+    if (!selectedTime || !selectedDay) return
+    const hour = selectedTime.split(":")[0]
+    const minute = selectedTime.split(":")[1]
+    return set(selectedDay, {
+      minutes: Number(minute),
+      hours: Number(hour),
+    })
+  }, [selectedDay, selectedTime])
 
   const getTimeList = useMemo<string[]>(() => {
     if (!selectedDay) return []
@@ -69,24 +68,25 @@ const useServiceItem = ({ serviceId }: UseServiceItemProps) => {
 
   const hasTimeListCurrent = getTimeList.length > 0
 
-  const formatDateService = () => {
-    if (!selectedDay) return "Data inválida"
-    return format(selectedDay, "d 'de' MMMM", { locale: ptBR })
+  const handleDateSelect = (date?: Date) => {
+    setSelectedDay(date)
+  }
+
+  const handleTimeSelect = (time: string) => {
+    return () => setSelectedTime(time)
   }
 
   const handleCreateBooking = async (serviceId: string) => {
-    if (!selectedDay || !selectedTime) return
+    if (!selectedDate) return
 
     try {
-      const hour = selectedTime.split(":")[0]
-      const minute = selectedTime.split(":")[1]
-      const newDate = set(selectedDay, {
-        minutes: Number(minute),
-        hours: Number(hour),
+      await createBooking({ serviceId, date: selectedDate })
+      toast.success("Create booking successfully", {
+        action: {
+          label: "Ver Agendamentos",
+          onClick: () => router.push("/bookings"),
+        },
       })
-
-      await createBooking({ serviceId, date: newDate })
-      toast.success("Create booking successfully")
       setSelectedDay(undefined)
       setSelectedTime(undefined)
     } catch (error) {
@@ -99,12 +99,12 @@ const useServiceItem = ({ serviceId }: UseServiceItemProps) => {
     data,
     selectedDay,
     selectedTime,
+    selectedDate,
     dayBookings,
     getTimeList,
     hasTimeListCurrent,
     loadBooking,
     handleCreateBooking,
-    formatDateService,
     handleTimeSelect,
     handleDateSelect,
   }
