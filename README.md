@@ -6,10 +6,5 @@
 - [x] Introdução ao Tailwind e Shadcn
 - [x] Git hooks
 
-- Certificado
-  X7
-
-  FEAT:
-
 - 1.  Não exibir horários que já foram agendados
 - 2.  Não deixar o usuário reservar se não estiver logado
